@@ -37,14 +37,14 @@ public class TasksApplicationTests {
 	}
 
 	public void addMultipleTasks() {
-		taskRepository.save(new Task("Lili", "project1", new Date(), (long) 2, "pending"));
-		taskRepository.save(new Task("Lili", "project2", new Date(), (long) 24, "completed"));
-		taskRepository.save(new Task("Lili", "project6", new Date(),(long) 543, "pending"));
-		taskRepository.save(new Task("Lili", "project7", new Date(), (long) 32, "completed"));
-		taskRepository.save(new Task("Lili", "project8", new Date(), (long) 2, "pending"));
-		taskRepository.save(new Task("Sam", "project3", new Date(), (long) 32, "completed"));
-		taskRepository.save(new Task("Cristian", "project4", new Date(), (long) 12, "new"));
-		taskRepository.save(new Task("Sam", "project5", new Date(), (long) 65, "pending"));
+		taskRepository.save(new Task("Lili", "project1", new Date(), new Date(), (long) 2, "pending"));
+		taskRepository.save(new Task("Lili", "project2", new Date(), new Date(), (long) 24, "completed"));
+		taskRepository.save(new Task("Lili", "project6", new Date(), new Date(),(long) 543, "pending"));
+		taskRepository.save(new Task("Lili", "project7", new Date(), new Date(), (long) 32, "completed"));
+		taskRepository.save(new Task("Lili", "project8", new Date(), new Date(), (long) 2, "pending"));
+		taskRepository.save(new Task("Sam", "project3", new Date(), new Date(), (long) 32, "completed"));
+		taskRepository.save(new Task("Cristian", "project4", new Date(), new Date(), (long) 12, "new"));
+		taskRepository.save(new Task("Sam", "project5", new Date(), new Date(), (long) 65, "pending"));
 	}
 
 	@Test
@@ -56,7 +56,9 @@ public class TasksApplicationTests {
 
 	@Test
 	public void createTaskTest() throws ParseException {
-		Task newTask = taskController.createTask("Lili", "project9", formatter.parse("12/12/2028"), (long) 65, "pending");
+		Task newTask = taskController.createTask("Lili", "project9",
+				formatter.parse("12/12/2028"), formatter.parse("12/12/2038"),
+				(long) 65, "pending");
 		Task actualTask = taskRepository.findOne(newTask.getId());
 		assertEquals(newTask, actualTask);
 	}
@@ -89,11 +91,11 @@ public class TasksApplicationTests {
 	}
 
 	@Test
-	public void getTasksByUserStatusAndDateBetweenTest() throws ParseException {
+	public void getTasksByUserStatusAndCreatedDateBetweenTest() throws ParseException {
 		Date less = formatter.parse("12/12/2004");
 		Date greater = formatter.parse("12/12/2018");
 		List<Task> expectedTasks = taskController.getTasksByUserStatusAndDateBetween("Lili", "pending", less, greater);
-		List<Task> actualTasks = taskRepository.findAllByUserAndStatusAndDateBetween("Lili", "pending", less, greater);
+		List<Task> actualTasks = taskRepository.findAllByUserAndStatusAndCreatedDateBetween("Lili", "pending", less, greater);
 		System.out.println(expectedTasks);
 		System.out.println(actualTasks);
 		assertTrue(expectedTasks.equals(actualTasks));

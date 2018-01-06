@@ -10,17 +10,19 @@ public class Task {
 
     private String user;
     private String name;
-    private Date date;
+    private Date createdDate;
+    private Date endDate;
     private Long duration;
     private String status;
 
     public Task() {
     }
 
-    public Task(String user, String name, Date date, Long duration, String status) {
+    public Task(String user, String name, Date createdDate, Date endDate, Long duration, String status) {
         this.user  = user;
         this.name = name;
-        this.date = (date == null ? new Date() : date);
+        this.createdDate = (createdDate == null ? new Date() : createdDate);
+        this.endDate = (endDate == null ? new Date() : endDate);
         this.duration = duration;
         this.status = status;
     }
@@ -45,12 +47,20 @@ public class Task {
         this.name = name;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public Long getDuration() {
@@ -79,7 +89,9 @@ public class Task {
         if (!id.equals(task.id)) return false;
         if (!user.equals(task.user)) return false;
         if (!name.equals(task.name)) return false;
-        if (date != null ? !date.equals(task.date) : task.date != null) return false;
+        if (createdDate != null ? !createdDate.equals(task.createdDate) : task.createdDate != null)
+            return false;
+        if (endDate != null ? !endDate.equals(task.endDate) : task.endDate != null) return false;
         if (duration != null ? !duration.equals(task.duration) : task.duration != null)
             return false;
         return status != null ? status.equals(task.status) : task.status == null;
@@ -90,7 +102,8 @@ public class Task {
         int result = id.hashCode();
         result = 31 * result + user.hashCode();
         result = 31 * result + name.hashCode();
-        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         result = 31 * result + (duration != null ? duration.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
@@ -102,7 +115,8 @@ public class Task {
                 "id='" + id + '\'' +
                 ", user='" + user + '\'' +
                 ", name='" + name + '\'' +
-                ", date=" + date +
+                ", createdDate=" + createdDate +
+                ", endDate=" + endDate +
                 ", duration=" + duration +
                 ", status='" + status + '\'' +
                 '}';

@@ -17,7 +17,7 @@ public interface TaskRepository extends MongoRepository<Task, String> {
     List<Task> findAllByUserAndDurationIsGreaterThanEqual(@Param("user") String user,
                                                                       @Param("duration") Long duration);
 
-    List<Task> findAllByUserAndStatusAndDateBetween(@Param("user") String user,
+    List<Task> findAllByUserAndStatusAndCreatedDateBetween(@Param("user") String user,
                                                     @Param("status") String status,
                                                     @Param("date") Date less,
                                                     @Param("date") Date greater);

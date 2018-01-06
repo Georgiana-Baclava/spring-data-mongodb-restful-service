@@ -18,11 +18,12 @@ public class TaskController {
     @RequestMapping(value = "task", method = RequestMethod.POST)
     public Task createTask(@RequestParam("user") String user,
                            @RequestParam("name") String name,
-                           @RequestParam(value = "date", required = false) Date date,
+                           @RequestParam(value = "createdDate", required = false) Date createdDate,
+                           @RequestParam(value = "endDate", required = false) Date endDate,
                            @RequestParam(value = "duration", required = false) Long duration,
                            @RequestParam(value = "status", defaultValue = "pending") String status)
     {
-        Task newTask = new Task(user, name, date, duration, status);
+        Task newTask = new Task(user, name, createdDate, endDate, duration, status);
         taskRepository.save(newTask);
         return newTask;
     }
@@ -53,7 +54,7 @@ public class TaskController {
                                                   @RequestParam("status") String status,
                                                   @RequestParam("date") Date less,
                                                   @RequestParam("date") Date greater) {
-        return taskRepository.findAllByUserAndStatusAndDateBetween(user, status, less, greater);
+        return taskRepository.findAllByUserAndStatusAndCreatedDateBetween(user, status, less, greater);
     }
 
     @RequestMapping("tasksByUserAndStatus")
