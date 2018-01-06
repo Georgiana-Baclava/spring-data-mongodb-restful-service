@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface TaskRepository extends MongoRepository<Task, String> {
 
-    List<Task> findByName(@Param("name") String name);
+    List<Task> findAllByName(@Param("name") String name);
+
+    List<Task> findAllByUser(@Param("user") String user);
 
     Long deleteTaskByName(@Param("name") String name);
 }

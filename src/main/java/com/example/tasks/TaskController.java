@@ -16,18 +16,29 @@ public class TaskController {
     private TaskRepository taskRepository;
 
     @RequestMapping(value = "task", method = RequestMethod.POST)
-    public Task createTask(@RequestParam("name") String name,
+    public Task createTask(@RequestParam("user") String user,
+                           @RequestParam("name") String name,
                            @RequestParam(value = "date", required = false) Date date,
                            @RequestParam(value = "status", defaultValue = "pending") String status)
     {
-        Task newTask = new Task(name, date, status);
+        Task newTask = new Task(user, name, date, status);
         taskRepository.save(newTask);
         return newTask;
     }
 
     @RequestMapping("tasks")
-    public List<Task> getTask(@RequestParam(value = "name", required = false) String name) {
-        return (name == null ? taskRepository.findAll() : taskRepository.findByName(name));
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
+    }
+
+    @RequestMapping("tasksByName")
+    public List<Task> getTasksByName(@RequestParam(value = "name") String name) {
+        return taskRepository.findAllByName(name);
+    }
+
+    @RequestMapping("tasksByUser")
+    public List<Task> getTasksByUser(@RequestParam(value = "user") String user) {
+        return taskRepository.findAllByUser(user);
     }
 
     @RequestMapping(value = "task", method = RequestMethod.DELETE)
