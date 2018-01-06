@@ -19,9 +19,10 @@ public class TaskController {
     public Task createTask(@RequestParam("user") String user,
                            @RequestParam("name") String name,
                            @RequestParam(value = "date", required = false) Date date,
+                           @RequestParam(value = "duration", required = false) Long duration,
                            @RequestParam(value = "status", defaultValue = "pending") String status)
     {
-        Task newTask = new Task(user, name, date, status);
+        Task newTask = new Task(user, name, date, duration, status);
         taskRepository.save(newTask);
         return newTask;
     }
@@ -32,13 +33,33 @@ public class TaskController {
     }
 
     @RequestMapping("tasksByName")
-    public List<Task> getTasksByName(@RequestParam(value = "name") String name) {
+    public List<Task> getTasksByName(@RequestParam("name") String name) {
         return taskRepository.findAllByName(name);
     }
 
     @RequestMapping("tasksByUser")
-    public List<Task> getTasksByUser(@RequestParam(value = "user") String user) {
+    public List<Task> getTasksByUser(@RequestParam("user") String user) {
         return taskRepository.findAllByUser(user);
+    }
+
+    @RequestMapping("tasksByUserAndGreaterDuration")
+    public List<Task> getAllTasksByUserAndDurationIsGreaterThanEqual(@RequestParam("user") String user,
+                                                       @RequestParam("duration") Long duration) {
+        return taskRepository.findAllByUserAndDurationIsGreaterThanEqual(user, duration);
+    }
+
+    @RequestMapping("tasksByUserStatusAndDate")
+    public List<Task> getTasksByUserStatusAndDateBetween(@RequestParam("user") String user,
+                                                  @RequestParam("status") String status,
+                                                  @RequestParam("date") Date less,
+                                                  @RequestParam("date") Date greater) {
+        return taskRepository.findAllByUserAndStatusAndDateBetween(user, status, less, greater);
+    }
+
+    @RequestMapping("tasksByUserAndStatus")
+    public List<Task> getTasksByUserAndStatus(@RequestParam("user") String user,
+                                              @RequestParam("status") String status) {
+        return taskRepository.findAllByUserAndStatus(user, status);
     }
 
     @RequestMapping(value = "task", method = RequestMethod.DELETE)

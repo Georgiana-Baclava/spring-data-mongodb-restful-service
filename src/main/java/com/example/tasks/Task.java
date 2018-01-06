@@ -11,15 +11,17 @@ public class Task {
     private String user;
     private String name;
     private Date date;
+    private Long duration;
     private String status;
 
     public Task() {
     }
 
-    public Task(String user, String name, Date date, String status) {
+    public Task(String user, String name, Date date, Long duration, String status) {
         this.user  = user;
         this.name = name;
         this.date = (date == null ? new Date() : date);
+        this.duration = duration;
         this.status = status;
     }
 
@@ -51,23 +53,20 @@ public class Task {
         this.date = date;
     }
 
+    public Long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Long duration) {
+        this.duration = duration;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id='" + id + '\'' +
-                ", user='" + user + '\'' +
-                ", name='" + name + '\'' +
-                ", date=" + date +
-                ", status='" + status + '\'' +
-                '}';
     }
 
     @Override
@@ -81,6 +80,8 @@ public class Task {
         if (!user.equals(task.user)) return false;
         if (!name.equals(task.name)) return false;
         if (date != null ? !date.equals(task.date) : task.date != null) return false;
+        if (duration != null ? !duration.equals(task.duration) : task.duration != null)
+            return false;
         return status != null ? status.equals(task.status) : task.status == null;
     }
 
@@ -90,7 +91,20 @@ public class Task {
         result = 31 * result + user.hashCode();
         result = 31 * result + name.hashCode();
         result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (duration != null ? duration.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", user='" + user + '\'' +
+                ", name='" + name + '\'' +
+                ", date=" + date +
+                ", duration=" + duration +
+                ", status='" + status + '\'' +
+                '}';
     }
 }
