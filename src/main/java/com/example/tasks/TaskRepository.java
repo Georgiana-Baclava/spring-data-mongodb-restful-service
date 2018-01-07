@@ -19,8 +19,8 @@ public interface TaskRepository extends MongoRepository<Task, String> {
 
     List<Task> findAllByUserAndStatusAndCreatedDateBetween(@Param("user") String user,
                                                     @Param("status") String status,
-                                                    @Param("date") Date less,
-                                                    @Param("date") Date greater);
+                                                    @Param("createdDate") Date less,
+                                                    @Param("createdDate") Date greater);
 
     Long deleteTaskByName(@Param("name") String name);
 }

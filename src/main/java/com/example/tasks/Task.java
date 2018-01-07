@@ -18,11 +18,11 @@ public class Task {
     public Task() {
     }
 
-    public Task(String user, String name, Date createdDate, Date endDate, Long duration, String status) {
+    public Task(String user, String name, Long createdDate, Long endDate, Long duration, String status) {
         this.user  = user;
         this.name = name;
-        this.createdDate = (createdDate == null ? new Date() : createdDate);
-        this.endDate = (endDate == null ? new Date() : endDate);
+        this.createdDate = (createdDate == null ? new Date(System.currentTimeMillis()) : new Date(createdDate));
+        this.endDate = (endDate == null ? new Date(System.currentTimeMillis()) : new Date(endDate));
         this.duration = duration;
         this.status = status;
     }

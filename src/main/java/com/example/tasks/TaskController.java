@@ -18,8 +18,8 @@ public class TaskController {
     @RequestMapping(value = "task", method = RequestMethod.POST)
     public Task createTask(@RequestParam("user") String user,
                            @RequestParam("name") String name,
-                           @RequestParam(value = "createdDate", required = false) Date createdDate,
-                           @RequestParam(value = "endDate", required = false) Date endDate,
+                           @RequestParam(value = "createdDate", required = false) Long createdDate,
+                           @RequestParam(value = "endDate", required = false) Long endDate,
                            @RequestParam(value = "duration", required = false) Long duration,
                            @RequestParam(value = "status", defaultValue = "pending") String status)
     {
@@ -49,12 +49,14 @@ public class TaskController {
         return taskRepository.findAllByUserAndDurationIsGreaterThanEqual(user, duration);
     }
 
-    @RequestMapping("tasksByUserStatusAndDate")
-    public List<Task> getTasksByUserStatusAndDateBetween(@RequestParam("user") String user,
+    @RequestMapping("tasksByUserStatusAndCreatedDate")
+    public List<Task> getTasksByUserStatusAndCreatedDateBetween(@RequestParam("user") String user,
                                                   @RequestParam("status") String status,
-                                                  @RequestParam("date") Date less,
-                                                  @RequestParam("date") Date greater) {
-        return taskRepository.findAllByUserAndStatusAndCreatedDateBetween(user, status, less, greater);
+                                                  @RequestParam("createdDate") Long less,
+                                                  @RequestParam("createdDate") Long greater) {
+        Date lessDate = (less == null ? new Date(System.currentTimeMillis()) : new Date(less));
+        Date greaterDate = (greater == null ? new Date(System.currentTimeMillis()) : new Date(greater));
+        return taskRepository.findAllByUserAndStatusAndCreatedDateBetween(user, status, lessDate, greaterDate);
     }
 
     @RequestMapping("tasksByUserAndStatus")
