@@ -52,8 +52,8 @@ public class TaskController {
     @RequestMapping("tasksByUserStatusAndCreatedDate")
     public List<Task> getTasksByUserStatusAndCreatedDateBetween(@RequestParam("user") String user,
                                                   @RequestParam("status") String status,
-                                                  @RequestParam("createdDate") Long less,
-                                                  @RequestParam("createdDate") Long greater) {
+                                                  @RequestParam("lessDate") Long less,
+                                                  @RequestParam("greaterDate") Long greater) {
         Date lessDate = (less == null ? new Date(System.currentTimeMillis()) : new Date(less));
         Date greaterDate = (greater == null ? new Date(System.currentTimeMillis()) : new Date(greater));
         return taskRepository.findAllByUserAndStatusAndCreatedDateBetween(user, status, lessDate, greaterDate);

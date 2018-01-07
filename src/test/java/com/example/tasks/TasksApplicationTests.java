@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -132,11 +132,11 @@ public class TasksApplicationTests {
 
 	@Test
 	public void getTasksByUserStatusAndCreatedDateBetweenTest() throws Exception {
-		Timestamp less = new Timestamp(Long.parseLong("1515353559825"));
-		Timestamp greater = new Timestamp(Long.parseLong("1535354290763"));
-		MvcResult result = this.mockMvc.perform(get("/tasksByUserStatusAndTimestamp")
+		Date less = new Date(Long.parseLong("1515353559825"));
+		Date greater = new Date(Long.parseLong("1535354290763"));
+		MvcResult result = this.mockMvc.perform(get("/tasksByUserStatusAndCreatedDate")
 				.param("user", "Lili").param("status", "pending")
-				.param("timestamp", "1515353559825").param("timestamp", "1535354290763"))
+				.param("lessDate", "1515353559825").param("greaterDate", "1535354290763"))
 				.andExpect(status().isOk())
 				.andReturn();
 		List<Task> expectedTasks = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Task>>() {});
