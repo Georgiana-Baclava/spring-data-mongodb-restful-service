@@ -7,11 +7,12 @@ import java.util.Date;
 
 public class ApiError {
 
-    private HttpStatus status;
+    private int code;
+    private String status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private Date date;
     private String message;
-    private String debugMessage;
+    private String path;
 
     private ApiError() {
         date = new Date();
@@ -19,28 +20,29 @@ public class ApiError {
 
     ApiError(HttpStatus status) {
         this();
-        this.status = status;
+        this.code = status.value();
+        this.status = status.getReasonPhrase();
     }
 
-    ApiError(HttpStatus status, Throwable ex) {
-        this();
-        this.status = status;
-        this.message = "Unexpected error";
-        this.debugMessage = ex.getLocalizedMessage();
-    }
-
-    ApiError(HttpStatus status, String message, Throwable ex) {
-        this();
-        this.status = status;
+    ApiError(HttpStatus status, String message, String path) {
+        this(status);
         this.message = message;
-        this.debugMessage = ex.getLocalizedMessage();
+        this.path = path;
     }
 
-    public HttpStatus getStatus() {
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(HttpStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -60,11 +62,11 @@ public class ApiError {
         this.message = message;
     }
 
-    public String getDebugMessage() {
-        return debugMessage;
+    public String getPath() {
+        return path;
     }
 
-    public void setDebugMessage(String debugMessage) {
-        this.debugMessage = debugMessage;
+    public void setPath(String path) {
+        this.path = path;
     }
 }
